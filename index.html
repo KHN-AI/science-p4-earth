@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小學科學科：地球的公轉與四季的變化</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tone.js for educational sound effects without external audio files -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans TC"', 'system-ui', 'sans-serif'],
+            fun: ['"Fredoka"', 'cursive', 'sans-serif'],
+          },
+          colors: {
+            space: {
+              900: '#070b19',
+              800: '#0f172a',
+              700: '#1e293b',
+              glow: '#38bdf8'
+            },
+            sun: '#fbbf24',
+            earth: '#38bdf8'
+          },
+          animation: {
+            'spin-slow': 'spin 20s linear infinite',
+            'pulse-glow': 'pulseGlow 2.5s ease-in-out infinite',
+          },
+          keyframes: {
+            pulseGlow: {
+              '0%, 100%': { filter: 'drop-shadow(0 0 15px rgba(251, 191, 36, 0.7))' },
+              '50%': { filter: 'drop-shadow(0 0 28px rgba(251, 191, 36, 1))' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #060913;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+    .space-grid-bg {
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(30, 58, 138, 0.25) 0%, transparent 60%),
+        radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 150px 120px, rgba(255,255,255,0.7), rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 280px 220px, #38bdf8, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 400px 380px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 520px 150px, #fde047, rgba(0,0,0,0));
+      background-size: 100% 100%, 300px 300px, 400px 400px, 350px 350px, 500px 500px, 450px 450px;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b1120;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="min-h-screen space-grid-bg flex flex-col selection:bg-cyan-500 selection:text-white">
+  <!-- Top Header Navigation -->
+  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-sky-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-sky-500/20">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" stroke-width="2"></circle>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.6 9h16.8M3.6 15h16.8"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9 15.3 15.3 0 0 1-4-9 15.3 15.3 0 0 1 4-9z"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs px-2 py-0.5 font-bold uppercase rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800">
+              小四常識／科學探索
+            </span>
+            <span class="text-xs text-slate-400 hidden sm:inline">東華三院高可寧紀念小學校本課程資源</span>
+          </div>
+          <h1 class="text-base sm:text-lg font-bold text-white tracking-wide">
+            地球的公轉與四季的變化
+          </h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="audio-toggle-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">
+          <svg id="audio-icon-on" class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+          </svg>
+          <span id="audio-btn-label">音效開啟</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <div class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-sm sticky top-16 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="flex space-x-1 sm:space-x-3 overflow-x-auto py-2.5 no-scrollbar" id="tab-nav">
+        <button onclick="switchTab('orbit')" id="tab-btn-orbit" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cyan-600/30 text-cyan-300 border border-cyan-500/50 transition">
+          <span>🪐</span> 1. 地球公轉動態模擬
+        </button>
+        <button onclick="switchTab('sunlight')" id="tab-btn-sunlight" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent transition">
+          <span>🔦</span> 2. 直射與斜射實驗
+        </button>
+        <button onclick="switchTab('hemispheres')" id="tab-btn-hemispheres" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent transition">
+          <span>🌏</span> 3. 南北半球大不同
+        </button>
+        <button onclick="switchTab('quiz')" id="tab-btn-quiz" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent transition">
+          <span>🎯</span> 4. 挑戰小測驗
+        </button>
+        <button onclick="switchTab('summary')" id="tab-btn-summary" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent transition">
+          <span>📖</span> 5. 知識要點筆記
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+
+    <!-- TAB 1: ORBIT SIMULATOR (公轉軌道模擬器) -->
+    <div id="tab-orbit" class="tab-content block space-y-6">
+      <!-- Info banner -->
+      <div class="bg-gradient-to-r from-sky-950/70 via-indigo-950/50 to-slate-900/80 border border-sky-800/50 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-bold">★</span>
+            <h2 class="text-lg font-bold text-white">四季成因的核心秘密</h2>
+          </div>
+          <p class="text-sm text-slate-300 mt-1">
+            地球繞太陽公轉一圈需時 <strong class="text-amber-300">一年（約 365.25 天）</strong>。因為地軸向同一個方向傾斜約 <strong class="text-sky-300">23.5°</strong>，使得陽光在一年中直射地球的緯度不斷改變，形成了春、夏、秋、冬！
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2 text-xs">
+          <div class="px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300">
+            地軸傾斜角：<span class="text-cyan-400 font-bold">23.5°</span>
+          </div>
+          <div class="px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300">
+            公轉週期：<span class="text-amber-400 font-bold">365¼ 日</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Orbit Simulation Workspace -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Interactive Canvas Card -->
+        <div class="lg:col-span-8 bg-slate-900/90 border border-slate-800 rounded-3xl p-4 sm:p-5 shadow-2xl flex flex-col justify-between">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <h3 class="text-sm sm:text-base font-bold text-slate-200">太空軌道俯視與受光角模擬視圖</h3>
+            </div>
+            <!-- Quick Season Jump Buttons -->
+            <div class="flex items-center gap-1 sm:gap-2">
+              <button onclick="setSeasonPreset(0)" class="px-2 sm:px-2.5 py-1 text-xs rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 hover:bg-emerald-800 transition">春分</button>
+              <button onclick="setSeasonPreset(90)" class="px-2 sm:px-2.5 py-1 text-xs rounded-lg bg-rose-950/80 text-rose-300 border border-rose-800/60 hover:bg-rose-800 transition">夏至</button>
+              <button onclick="setSeasonPreset(180)" class="px-2 sm:px-2.5 py-1 text-xs rounded-lg bg-amber-950/80 text-amber-300 border border-amber-800/60 hover:bg-amber-800 transition">秋分</button>
+              <button onclick="setSeasonPreset(270)" class="px-2 sm:px-2.5 py-1 text-xs rounded-lg bg-cyan-950/80 text-cyan-300 border border-cyan-800/60 hover:bg-cyan-800 transition">冬至</button>
+            </div>
+          </div>
+
+          <!-- Canvas Container -->
+          <div class="relative w-full aspect-[16/10] min-h-[320px] max-h-[460px] bg-slate-950 rounded-2xl overflow-hidden border border-slate-800">
+            <canvas id="orbitCanvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
+            
+            <!-- Canvas Overlay Legend -->
+            <div class="absolute bottom-3 left-3 bg-slate-900/85 backdrop-blur-md px-3 py-2 rounded-xl border border-slate-700/70 text-xs space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                <span class="text-slate-300">太陽（中央中心點）</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+                <span class="text-slate-300">地球（自轉軸傾斜 23.5°）</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-0.5 bg-yellow-400 border-dashed"></span>
+                <span class="text-slate-300">陽光直射點光束</span>
+              </div>
+            </div>
+
+            <!-- Drag Prompt Overlay -->
+            <div class="absolute top-3 right-3 bg-slate-900/70 backdrop-blur-sm px-2.5 py-1 rounded-lg border border-slate-800 text-[11px] text-slate-400 flex items-center gap-1.5 pointer-events-none">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+              </svg>
+              <span>可直接在軌道上拖動地球</span>
+            </div>
+          </div>
+
+          <!-- Controls bar -->
+          <div class="mt-4 pt-3 border-t border-slate-800 space-y-3">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <button id="playBtn" onclick="togglePlay()" class="flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs sm:text-sm shadow-lg shadow-cyan-500/25 transition">
+                  <svg id="playIcon" class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                  <span id="playText">自動公轉播放</span>
+                </button>
+                <button onclick="stepOrbit(-15)" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs">
+                  ◀ 後退半個月
+                </button>
+                <button onclick="stepOrbit(15)" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs">
+                  前進半個月 ▶
+                </button>
+              </div>
+
+              <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                <span class="text-xs text-slate-400 whitespace-nowrap">模擬月份：</span>
+                <span id="currentMonthBadge" class="text-sm font-bold text-cyan-300 bg-cyan-950/80 px-3 py-1 rounded-lg border border-cyan-800">
+                  3月21日 (春分)
+                </span>
+              </div>
+            </div>
+
+            <!-- Month Slider -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-[11px] text-slate-400 px-1 font-mono">
+                <span>1月</span>
+                <span class="text-emerald-400 font-bold">3月(春分)</span>
+                <span>5月</span>
+                <span class="text-rose-400 font-bold">6月(夏至)</span>
+                <span>8月</span>
+                <span class="text-amber-400 font-bold">9月(秋分)</span>
+                <span>11月</span>
+                <span class="text-cyan-400 font-bold">12月(冬至)</span>
+              </div>
+              <input 
+                id="orbitSlider" 
+                type="range" 
+                min="0" 
+                max="360" 
+                step="1" 
+                value="0" 
+                class="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                oninput="onSliderChange(this.value)"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Scientific Status Panel -->
+        <div class="lg:col-span-4 space-y-4">
+          <!-- Solar Direct Hit Status -->
+          <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl">
+            <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              此時太陽直射緯度
+            </h4>
+            
+            <div class="p-3.5 rounded-2xl bg-amber-950/30 border border-amber-500/30 text-center mb-4">
+              <div id="directHitTitle" class="text-lg font-black text-amber-300">赤道 (0°)</div>
+              <div id="directHitDesc" class="text-xs text-amber-200/80 mt-0.5">全球晝夜等長（各約12小時）</div>
+            </div>
+
+            <div class="space-y-3 text-xs">
+              <!-- North Hemisphere Status (e.g. Hong Kong) -->
+              <div class="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-sky-300 flex items-center gap-1.5">
+                    <span>🏙️</span> 北半球（例如：香港）
+                  </span>
+                  <span id="nhSeasonBadge" class="px-2 py-0.5 rounded font-bold bg-emerald-900/80 text-emerald-300">
+                    春季
+                  </span>
+                </div>
+                <div class="text-slate-300 space-y-0.5">
+                  <p>• 日照情況：<span id="nhDaylight" class="text-white font-medium">晝夜平分 (各12小時)</span></p>
+                  <p>• 太陽角度：<span id="nhAngle" class="text-white font-medium">逐漸升高，漸暖</span></p>
+                  <p>• 氣候特徵：<span id="nhWeather" class="text-white font-medium">溫和潮濕、萬物生長</span></p>
+                </div>
+              </div>
+
+              <!-- South Hemisphere Status (e.g. Sydney) -->
+              <div class="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-amber-300 flex items-center gap-1.5">
+                    <span>🦘</span> 南半球（例如：澳洲雪梨）
+                  </span>
+                  <span id="shSeasonBadge" class="px-2 py-0.5 rounded font-bold bg-amber-900/80 text-amber-300">
+                    秋季
+                  </span>
+                </div>
+                <div class="text-slate-300 space-y-0.5">
+                  <p>• 季節狀態：<span id="shSeasonName" class="text-white font-medium">與北半球完全相反！</span></p>
+                  <p>• 日照情況：<span id="shDaylight" class="text-white font-medium">晝夜平分，漸漸晝短夜長</span></p>
+                  <p>• 氣候特徵：<span id="shWeather" class="text-white font-medium">天氣漸漸轉涼</span></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Key Teaching Callout -->
+            <div class="mt-4 p-3 rounded-xl bg-cyan-950/40 border border-cyan-800/50 text-[11px] text-cyan-200">
+              💡 <strong>老師小提示：</strong> 請留意地球自轉軸始終朝向北極星（右上傾斜）。公轉到不同位置時，太陽照射北半球與南半球的角度就不同了！
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: DIRECT VS SLANTED SUNLIGHT LAB (直射與斜射實驗室) -->
+    <div id="tab-sunlight" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-amber-950/60 via-slate-900 to-indigo-950/60 border border-amber-700/40 rounded-3xl p-6">
+        <div class="max-w-3xl">
+          <span class="text-xs px-2.5 py-1 font-bold uppercase rounded-full bg-amber-950 text-amber-400 border border-amber-800">
+            實驗探索實驗室
+          </span>
+          <h2 class="text-xl sm:text-2xl font-bold text-white mt-2">
+            為什麼「直射」比「斜射」更熱？
+          </h2>
+          <p class="text-sm text-slate-300 mt-2">
+            在常識課堂上，我們用手電筒照在紙板上：當手電筒垂直向下照射（90°直射）時，光斑集中，熱量最集中；當傾斜照射（斜射）時，光斑分散變大，單位面積吸熱變少！這正是夏天熱、冬天冷的關鍵！
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <!-- Interactive Flashlight / Sun Beam Canvas -->
+        <div class="lg:col-span-8 bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-2xl flex flex-col justify-between">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm sm:text-base font-bold text-slate-200 flex items-center gap-2">
+              <span>🔦</span> 模擬光束照射實驗
+            </h3>
+            <div class="flex items-center gap-2">
+              <button onclick="setBeamAngle(90)" class="px-2.5 py-1 text-xs rounded-lg bg-rose-950/80 text-rose-300 border border-rose-800 hover:bg-rose-800">
+                直射 (90°)
+              </button>
+              <button onclick="setBeamAngle(60)" class="px-2.5 py-1 text-xs rounded-lg bg-amber-950/80 text-amber-300 border border-amber-800 hover:bg-amber-800">
+                微斜 (60°)
+              </button>
+              <button onclick="setBeamAngle(30)" class="px-2.5 py-1 text-xs rounded-lg bg-sky-950/80 text-sky-300 border border-sky-800 hover:bg-sky-800">
+                強斜 (30°)
+              </button>
+            </div>
+          </div>
+
+          <!-- Canvas for flashlight light beam -->
+          <div class="w-full aspect-[16/10] min-h-[300px] bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 relative">
+            <canvas id="beamCanvas" class="w-full h-full"></canvas>
+            <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-slate-800 text-xs text-slate-300">
+              當前照射角度：<span id="beamAngleDisplay" class="font-bold text-amber-400">90° (垂直直射)</span>
+            </div>
+          </div>
+
+          <!-- Beam Angle Slider -->
+          <div class="mt-4 pt-3 border-t border-slate-800 space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-400">滑動調整照射角度 (太陽高度角)：</span>
+              <span id="sliderAngleText" class="font-bold text-amber-400">90°</span>
+            </div>
+            <input 
+              id="beamSlider" 
+              type="range" 
+              min="20" 
+              max="90" 
+              step="1" 
+              value="90" 
+              class="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400"
+              oninput="updateBeamFromSlider(this.value)"
+            >
+            <div class="flex justify-between text-[11px] text-slate-400">
+              <span>20° (極斜射，冬天晨昏)</span>
+              <span>60° (春秋微斜)</span>
+              <span>90° (夏至正午直射)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Scientific Calculation & Explanation Card -->
+        <div class="lg:col-span-4 bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl flex flex-col justify-between space-y-4">
+          <div>
+            <h4 class="text-sm font-bold text-slate-300 mb-3 flex items-center gap-2">
+              <span>📊</span> 即時實驗數據對比
+            </h4>
+
+            <div class="space-y-3">
+              <!-- Spot Area Metric -->
+              <div class="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60">
+                <div class="text-xs text-slate-400">地面光斑面積（受光擴散程度）</div>
+                <div class="flex items-baseline justify-between mt-1">
+                  <span id="metricSpotArea" class="text-2xl font-black text-white font-mono">1.00</span>
+                  <span id="metricSpotLabel" class="text-xs font-bold text-rose-400">最集中</span>
+                </div>
+                <!-- Progress bar for area -->
+                <div class="w-full h-2 bg-slate-700 rounded-full mt-2 overflow-hidden">
+                  <div id="barSpotArea" class="h-full bg-rose-500 rounded-full transition-all duration-300" style="width: 25%"></div>
+                </div>
+              </div>
+
+              <!-- Thermal Energy Density -->
+              <div class="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60">
+                <div class="text-xs text-slate-400">單位面積受熱程度（地面溫度感受）</div>
+                <div class="flex items-baseline justify-between mt-1">
+                  <span id="metricHeat" class="text-2xl font-black text-amber-400 font-mono">100%</span>
+                  <span id="metricHeatLabel" class="text-xs font-bold text-rose-400">極炎熱 (夏季)</span>
+                </div>
+                <!-- Progress bar for heat -->
+                <div class="w-full h-2 bg-slate-700 rounded-full mt-2 overflow-hidden">
+                  <div id="barHeat" class="h-full bg-amber-500 rounded-full transition-all duration-300" style="width: 100%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Conclusion Box -->
+            <div id="beamConclusionCard" class="mt-4 p-3.5 rounded-2xl bg-rose-950/40 border border-rose-600/40 text-xs space-y-1.5">
+              <div class="font-bold text-rose-300 flex items-center gap-1.5">
+                <span>☀️</span> <span id="beamConclTitle">直射現象（夏天）</span>
+              </div>
+              <p id="beamConclText" class="text-slate-300 leading-relaxed">
+                光線集中在一小塊地面上，能量密度最高，地面吸熱迅速，加上夏天的白晝時間長，因此氣溫高而炎熱。
+              </p>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-700 text-[11px] text-slate-400">
+            📌 <strong>小學常識總結：</strong> 「光線越直射，光斑越集中，地面越熱；光線越斜射，光斑越擴散，地面越冷。」
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: NORTHERN VS SOUTHERN HEMISPHERES (南北半球大不同) -->
+    <div id="tab-hemispheres" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-sky-950/60 via-slate-900 to-emerald-950/60 border border-sky-700/40 rounded-3xl p-6">
+        <span class="text-xs px-2.5 py-1 font-bold uppercase rounded-full bg-sky-950 text-sky-400 border border-sky-800">
+          地理生活常識
+        </span>
+        <h2 class="text-xl sm:text-2xl font-bold text-white mt-2">
+          南北半球季節為什麼剛好相反？
+        </h2>
+        <p class="text-sm text-slate-300 mt-2 max-w-3xl">
+          因為赤道將地球劃分為北半球和南半球。當地球公轉使北半球傾向太陽時，北半球接受直射為夏季；同一時間，南半球正背離太陽，接受斜射，因此是冬季！
+        </p>
+      </div>
+
+      <!-- Month Selector Buttons -->
+      <div class="flex items-center justify-between flex-wrap gap-2 bg-slate-900 p-2 rounded-2xl border border-slate-800">
+        <span class="text-xs font-bold text-slate-300 px-3">選擇月份進行對比：</span>
+        <div class="flex flex-wrap gap-1">
+          <button onclick="setHemiMonth(12)" id="hemi-m-12" class="hemi-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-600 text-white">12月 (冬至/聖誕節)</button>
+          <button onclick="setHemiMonth(3)" id="hemi-m-3" class="hemi-btn px-3 py-1.5 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800">3月 (春分)</button>
+          <button onclick="setHemiMonth(6)" id="hemi-m-6" class="hemi-btn px-3 py-1.5 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800">6月 (夏至/暑假)</button>
+          <button onclick="setHemiMonth(9)" id="hemi-m-9" class="hemi-btn px-3 py-1.5 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800">9月 (秋分/開學)</button>
+        </div>
+      </div>
+
+      <!-- Comparison Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- North: Hong Kong -->
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 shadow-xl relative overflow-hidden">
+          <div class="absolute top-0 right-0 p-6 opacity-10 text-8xl font-black select-none pointer-events-none">北</div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">🏙️</span>
+              <div>
+                <h3 class="text-lg font-bold text-white">北半球：中國香港</h3>
+                <span class="text-xs text-sky-400 font-mono">北緯 22.3° N</span>
+              </div>
+            </div>
+            <span id="hkSeasonBadgeBig" class="px-3 py-1 rounded-xl text-sm font-bold bg-cyan-950 text-cyan-300 border border-cyan-800">
+              冬季
+            </span>
+          </div>
+
+          <div class="space-y-4">
+            <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
+              <div class="text-xs text-slate-400 mb-1">太陽照射狀態</div>
+              <div id="hkSunStatus" class="text-sm font-bold text-slate-200">
+                太陽斜射北半球，白晝短，黑夜長。
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
+              <div class="text-xs text-slate-400 mb-1">小朋友的生活與穿著</div>
+              <div id="hkLifeStatus" class="text-sm text-slate-200 flex items-center gap-2">
+                <span class="text-2xl" id="hkLifeEmoji">🧣</span>
+                <span id="hkLifeText">穿厚棉襖、戴圍巾，慶祝聖誕節時喝熱朱古力！</span>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
+              <div class="text-xs text-slate-400 mb-1">日照時數與氣候</div>
+              <div id="hkDayLength" class="text-sm font-semibold text-sky-300">
+                約 10.5 小時日照，氣候乾燥寒冷
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- South: Sydney, Australia -->
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 shadow-xl relative overflow-hidden">
+          <div class="absolute top-0 right-0 p-6 opacity-10 text-8xl font-black select-none pointer-events-none">南</div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">🦘</span>
+              <div>
+                <h3 class="text-lg font-bold text-white">南半球：澳洲雪梨 (悉尼)</h3>
+                <span class="text-xs text-amber-400 font-mono">南緯 33.8° S</span>
+              </div>
+            </div>
+            <span id="sydSeasonBadgeBig" class="px-3 py-1 rounded-xl text-sm font-bold bg-rose-950 text-rose-300 border border-rose-800">
+              夏季
+            </span>
+          </div>
+
+          <div class="space-y-4">
+            <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
+              <div class="text-xs text-slate-400 mb-1">太陽照射狀態</div>
+              <div id="sydSunStatus" class="text-sm font-bold text-slate-200">
+                太陽直射南回歸線附近，白晝長，黑夜短。
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
+              <div class="text-xs text-slate-400 mb-1">當地居民的生活與慶祝</div>
+              <div id="sydLifeStatus" class="text-sm text-slate-200 flex items-center gap-2">
+                <span class="text-2xl" id="sydLifeEmoji">🏄‍♂️</span>
+                <span id="sydLifeText">穿短袖泳衣去海灘衝浪、吃雪糕，度過陽光燦爛的夏日聖誕節！</span>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
+              <div class="text-xs text-slate-400 mb-1">日照時數與氣候</div>
+              <div id="sydDayLength" class="text-sm font-semibold text-rose-300">
+                約 14.5 小時日照，陽光明媚炎熱
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fun Fact Box -->
+      <div class="bg-indigo-950/40 border border-indigo-800/60 rounded-2xl p-4 flex items-start gap-3">
+        <span class="text-2xl">💡</span>
+        <div class="text-xs sm:text-sm text-indigo-200 leading-relaxed">
+          <strong>想一想：</strong> 如果地球的自轉軸<strong>完全垂直（0°傾斜）</strong>，繞太陽公轉時會發生什麼事？<br/>
+          答案是：如果地軸不傾斜，陽光將永遠直射赤道，全球各地每天都是晝夜等長（12小時），一年四季氣溫都不會改變，地球上就不會有春夏秋冬的交替了！
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: INTERACTIVE QUIZ (挑戰小測驗) -->
+    <div id="tab-quiz" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-emerald-950/60 via-slate-900 to-cyan-950/60 border border-emerald-700/40 rounded-3xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs px-2.5 py-1 font-bold uppercase rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800">
+            常識科課後自測
+          </span>
+          <h2 class="text-xl sm:text-2xl font-bold text-white mt-2">
+            四大小學精選常識闖關題
+          </h2>
+          <p class="text-sm text-slate-300 mt-1">
+            測試一下你對地球公轉、自轉與四季形成的掌握程度，完成可獲得專屬徽章！
+          </p>
+        </div>
+        <div class="flex items-center gap-3 bg-slate-900/90 border border-slate-800 px-4 py-2.5 rounded-2xl">
+          <div class="text-right">
+            <div class="text-xs text-slate-400">目前得分</div>
+            <div id="quizScoreText" class="text-xl font-black text-emerald-400">0 / 5</div>
+          </div>
+          <button onclick="resetQuiz()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300 border border-slate-700">
+            重新作答
+          </button>
+        </div>
+      </div>
+
+      <!-- Quiz Questions Container -->
+      <div id="quizQuestionsContainer" class="space-y-4">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- Quiz Finished Celebration Modal / Banner -->
+      <div id="quizResultBanner" class="hidden bg-gradient-to-tr from-emerald-900/90 to-cyan-900/90 border-2 border-emerald-400/80 rounded-3xl p-6 text-center space-y-3 shadow-2xl">
+        <div class="text-4xl">🎉 🌟 🏆</div>
+        <h3 class="text-2xl font-black text-white" id="quizCongratTitle">恭喜完成測驗！</h3>
+        <p class="text-slate-200 text-sm max-w-md mx-auto" id="quizCongratDesc">你已經掌握了地球公轉與四季變化的科學知識！</p>
+        <button onclick="switchTab('orbit')" class="px-6 py-2.5 rounded-xl bg-white text-slate-900 font-bold text-sm hover:bg-slate-100 shadow-lg">
+          返回再次探索公轉模擬器
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB 5: KEY CONCEPTS & REVISION (知識要點筆記) -->
+    <div id="tab-summary" class="tab-content hidden space-y-6">
+      <div class="bg-gradient-to-r from-purple-950/60 via-slate-900 to-indigo-950/60 border border-purple-700/40 rounded-3xl p-6">
+        <span class="text-xs px-2.5 py-1 font-bold uppercase rounded-full bg-purple-950 text-purple-400 border border-purple-800">
+          常識科溫習精華
+        </span>
+        <h2 class="text-xl sm:text-2xl font-bold text-white mt-2">
+          地球的「自轉」與「公轉」大對決
+        </h2>
+        <p class="text-sm text-slate-300 mt-1">
+          考試必背重點：請務必分清楚「自轉產生晝夜交替」與「公轉產生四季交替」！
+        </p>
+      </div>
+
+      <!-- Comparison Table Card -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-slate-800/80 text-xs uppercase font-bold text-slate-300 border-b border-slate-700">
+              <tr>
+                <th class="py-4 px-6">比較項目</th>
+                <th class="py-4 px-6 text-cyan-400">地球的自轉 (Rotation)</th>
+                <th class="py-4 px-6 text-amber-400">地球的公轉 (Revolution)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-300">
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-4 px-6 font-bold text-white">運動方式</td>
+                <td class="py-4 px-6">地球繞著自身的<strong>地軸</strong>旋轉（由西向東）</td>
+                <td class="py-4 px-6">地球繞著<strong>太陽</strong>公轉軌道運行（逆時針）</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-4 px-6 font-bold text-white">旋轉週期</td>
+                <td class="py-4 px-6 font-bold text-cyan-300">約 24 小時（1 天）</td>
+                <td class="py-4 px-6 font-bold text-amber-300">約 365.25 天（1 年）</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-4 px-6 font-bold text-white">產生的主要現象</td>
+                <td class="py-4 px-6">
+                  <span class="inline-block px-2.5 py-1 rounded bg-cyan-950 text-cyan-300 font-bold border border-cyan-800 text-xs">
+                    晝夜交替（白天與黑夜）
+                  </span>
+                  <div class="text-xs text-slate-400 mt-1">太陽東升西落、影子的長短與方向變化</div>
+                </td>
+                <td class="py-4 px-6">
+                  <span class="inline-block px-2.5 py-1 rounded bg-amber-950 text-amber-300 font-bold border border-amber-800 text-xs">
+                    四季變化（春夏秋冬）
+                  </span>
+                  <div class="text-xs text-slate-400 mt-1">太陽直射點移動、晝夜長短變化、氣溫高低變化</div>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-4 px-6 font-bold text-white">關鍵成因</td>
+                <td class="py-4 px-6">地球是一個不發光也不透明的球體</td>
+                <td class="py-4 px-6"><strong>地軸保持傾斜 23.5°</strong> 繞日公轉</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Four Key Points Card Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Spring -->
+        <div class="bg-slate-900/80 border border-emerald-800/60 rounded-2xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800">
+              3月21日頃
+            </span>
+            <span class="text-2xl">🌱</span>
+          </div>
+          <h4 class="text-base font-bold text-emerald-300">春分 (Spring Equinox)</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            • 太陽直射點：<strong>赤道 (0°)</strong><br>
+            • 全球各地<strong>晝夜平分</strong>（各約12小時）<br>
+            • 香港天氣轉暖、回南天潮濕
+          </p>
+        </div>
+
+        <!-- Summer -->
+        <div class="bg-slate-900/80 border border-rose-800/60 rounded-2xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded text-xs font-bold bg-rose-950 text-rose-300 border border-rose-800">
+              6月21/22日頃
+            </span>
+            <span class="text-2xl">🍉</span>
+          </div>
+          <h4 class="text-base font-bold text-rose-300">夏至 (Summer Solstice)</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            • 太陽直射點：<strong>北回歸線 (23.5°N)</strong><br>
+            • 北半球<strong>白晝最長、黑夜最短</strong><br>
+            • 北極圈內出現「極晝（永晝）」
+          </p>
+        </div>
+
+        <!-- Autumn -->
+        <div class="bg-slate-900/80 border border-amber-800/60 rounded-2xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded text-xs font-bold bg-amber-950 text-amber-300 border border-amber-800">
+              9月23日頃
+            </span>
+            <span class="text-2xl">🍁</span>
+          </div>
+          <h4 class="text-base font-bold text-amber-300">秋分 (Autumn Equinox)</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            • 太陽直射點：<strong>赤道 (0°)</strong><br>
+            • 全球各地再次<strong>晝夜平分</strong><br>
+            • 北半球氣溫漸涼、秋高氣爽
+          </p>
+        </div>
+
+        <!-- Winter -->
+        <div class="bg-slate-900/80 border border-cyan-800/60 rounded-2xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded text-xs font-bold bg-cyan-950 text-cyan-300 border border-cyan-800">
+              12月22日頃
+            </span>
+            <span class="text-2xl">❄️</span>
+          </div>
+          <h4 class="text-base font-bold text-cyan-300">冬至 (Winter Solstice)</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            • 太陽直射點：<strong>南回歸線 (23.5°S)</strong><br>
+            • 北半球<strong>白晝最短、黑夜最長</strong><br>
+            • 北極圈內出現「極夜（永夜）」
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/80 bg-slate-950/80 mt-12 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div>
+        東華三院高可寧紀念小學 小四科學／常識科校本互動電子學習教材
+      </div>
+      <div class="text-slate-400">
+        主題：地球的公轉與四季的變化 • HTML5 互動學習平台
+      </div>
+    </div>
+  </footer>
+
+  <!-- Notification Toast Component (No alert) -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 border border-cyan-500/60 shadow-2xl text-white px-4 py-3 rounded-2xl flex items-center gap-3 text-xs sm:text-sm">
+    <span id="toastIcon">✨</span>
+    <span id="toastMsg">提示訊息</span>
+  </div>
+
+  <script>
+    /* =========================================================
+       1. Educational Sound Effects (Tone.js Synth)
+       ========================================================= */
+    let audioEnabled = true;
+    let synth = null;
+
+    function initAudio() {
+      if (!synth && typeof Tone !== 'undefined') {
+        try {
+          synth = new Tone.PolySynth(Tone.Synth, {
+            oscillator: { type: "triangle" },
+            envelope: { attack: 0.01, decay: 0.15, sustain: 0.1, release: 0.3 }
+          }).toDestination();
+          synth.volume.value = -8;
+        } catch (e) {
+          console.log("Audio init deferred", e);
+        }
+      }
+    }
+
+    function playSound(type) {
+      if (!audioEnabled) return;
+      initAudio();
+      try {
+        if (Tone.context.state !== 'running') {
+          Tone.start();
+        }
+        if (!synth) return;
+        const now = Tone.now();
+        if (type === 'click') {
+          synth.triggerAttackRelease("C5", "32n", now, 0.2);
+        } else if (type === 'tick') {
+          synth.triggerAttackRelease("G4", "64n", now, 0.1);
+        } else if (type === 'correct') {
+          synth.triggerAttackRelease(["E5", "G5", "C6"], "16n", now);
+        } else if (type === 'wrong') {
+          synth.triggerAttackRelease(["F4", "C4"], "16n", now);
+        } else if (type === 'win') {
+          synth.triggerAttackRelease(["C5", "E5", "G5", "C6"], "8n", now);
+        }
+      } catch (err) {
+        // audio error ignored safely
+      }
+    }
+
+    document.getElementById('audio-toggle-btn').addEventListener('click', () => {
+      audioEnabled = !audioEnabled;
+      const label = document.getElementById('audio-btn-label');
+      const icon = document.getElementById('audio-icon-on');
+      if (audioEnabled) {
+        label.textContent = '音效開啟';
+        icon.classList.remove('text-slate-500');
+        icon.classList.add('text-emerald-400');
+        playSound('click');
+        showToast('🔊 音效已開啟');
+      } else {
+        label.textContent = '音效已靜音';
+        icon.classList.remove('text-emerald-400');
+        icon.classList.add('text-slate-500');
+        showToast('🔇 音效已靜音');
+      }
+    });
+
+    function showToast(message, icon = '💡') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastIcon').textContent = icon;
+      document.getElementById('toastMsg').textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+
+    /* =========================================================
+       2. Navigation Tab Switching
+       ========================================================= */
+    const tabIds = ['orbit', 'sunlight', 'hemispheres', 'quiz', 'summary'];
+    function switchTab(targetId) {
+      playSound('click');
+      tabIds.forEach(id => {
+        const content = document.getElementById('tab-' + id);
+        const btn = document.getElementById('tab-btn-' + id);
+        if (id === targetId) {
+          content.classList.remove('hidden');
+          content.classList.add('block');
+          btn.className = 'tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cyan-600/30 text-cyan-300 border border-cyan-500/50 transition';
+        } else {
+          content.classList.add('hidden');
+          content.classList.remove('block');
+          btn.className = 'tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent transition';
+        }
+      });
+
+      if (targetId === 'orbit') {
+        resizeOrbitCanvas();
+        drawOrbit();
+      } else if (targetId === 'sunlight') {
+        resizeBeamCanvas();
+        drawBeam();
+      }
+    }
+
+    /* =========================================================
+       3. Tab 1: Orbit Simulation Engine (Canvas)
+       ========================================================= */
+    const orbitCanvas = document.getElementById('orbitCanvas');
+    const orbitCtx = orbitCanvas.getContext('2d');
+    let orbitAngle = 0; // 0 = Spring equinox (March 21), 90 = Summer solstice, 180 = Autumn equinox, 270 = Winter solstice
+    let isPlaying = false;
+    let animFrameId = null;
+    let isDragging = false;
+
+    function resizeOrbitCanvas() {
+      const rect = orbitCanvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      orbitCanvas.width = rect.width * dpr;
+      orbitCanvas.height = rect.height * dpr;
+      orbitCtx.scale(dpr, dpr);
+    }
+
+    // Convert angle in orbit to approximate date & description
+    function getOrbitDetails(deg) {
+      deg = (deg % 360 + 360) % 360;
+      // 0 deg -> March 21
+      // 90 deg -> June 21
+      // 180 deg -> Sept 23
+      // 270 deg -> Dec 22
+      let month, day, seasonHk, seasonSyd, directLat, directName, directDesc;
+      let daylightHk, daylightSyd;
+
+      // Approximate mapping
+      if (deg >= 345 || deg < 45) {
+        // Near Spring Equinox
+        month = deg >= 345 ? 3 : 4;
+        day = deg >= 345 ? Math.round(21 - (360 - deg) * 0.5) : Math.round(21 + deg * 0.5);
+        directLat = "0° (赤道)";
+        directName = "赤道 (0°)";
+        directDesc = "春分時刻：陽光直射赤道，全球晝夜等長（各12小時）";
+        seasonHk = "春季";
+        seasonSyd = "秋季";
+        daylightHk = "晝夜平分 (各約12小時)";
+        daylightSyd = "晝夜平分 (各約12小時)";
+      } else if (deg >= 45 && deg < 135) {
+        // Near Summer Solstice
+        month = deg < 90 ? 5 : 7;
+        directLat = "23.5° N (北回歸線)";
+        directName = "北回歸線 (23.5° N)";
+        directDesc = "夏至時刻：陽光直射北半球最北端，北半球白晝最長、氣溫最熱！";
+        seasonHk = "夏季";
+        seasonSyd = "冬季";
+        daylightHk = "晝長夜短 (日照長達 13.5 小時)";
+        daylightSyd = "晝短夜長 (日照僅約 10 小時)";
+      } else if (deg >= 135 && deg < 225) {
+        // Near Autumn Equinox
+        month = deg < 180 ? 8 : 10;
+        directLat = "0° (赤道)";
+        directName = "赤道 (0°)";
+        directDesc = "秋分時刻：陽光再次直射赤道，氣候轉涼，晝夜平分";
+        seasonHk = "秋季";
+        seasonSyd = "春季";
+        daylightHk = "晝夜平分 (各約12小時)";
+        daylightSyd = "晝夜平分 (各約12小時)";
+      } else {
+        // Near Winter Solstice
+        month = deg < 270 ? 11 : 1;
+        directLat = "23.5° S (南回歸線)";
+        directName = "南回歸線 (23.5° S)";
+        directDesc = "冬至時刻：陽光直射南半球，北半球斜射最強、白晝最短且寒冷！";
+        seasonHk = "冬季";
+        seasonSyd = "夏季";
+        daylightHk = "晝短夜長 (日照僅約 10.5 小時)";
+        daylightSyd = "晝長夜短 (日照長達 14.5 小時)";
+      }
+
+      // Exact cardinal points
+      let exactLabel = "";
+      if (Math.abs(deg - 0) < 5 || Math.abs(deg - 360) < 5) exactLabel = "3月21日 (春分)";
+      else if (Math.abs(deg - 90) < 5) exactLabel = "6月21日 (夏至)";
+      else if (Math.abs(deg - 180) < 5) exactLabel = "9月23日 (秋分)";
+      else if (Math.abs(deg - 270) < 5) exactLabel = "12月22日 (冬至)";
+      else {
+        // approximate month & day
+        const totalDays = (deg / 360) * 365.25;
+        // Start from March 21
+        let d = new Date(2025, 2, 21); // Month is 0-indexed: 2 = March
+        d.setDate(d.getDate() + Math.round(totalDays));
+        exactLabel = `${d.getMonth() + 1}月${d.getDate()}日`;
+      }
+
+      return {
+        label: exactLabel,
+        directName,
+        directDesc,
+        seasonHk,
+        seasonSyd,
+        daylightHk,
+        daylightSyd
+      };
+    }
+
+    function drawOrbit() {
+      const rect = orbitCanvas.parentElement.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      if (w === 0 || h === 0) return;
+
+      orbitCtx.clearRect(0, 0, w, h);
+
+      const cx = w / 2;
+      const cy = h / 2;
+      const rx = Math.min(w * 0.40, 260);
+      const ry = Math.min(h * 0.35, 140);
+
+      // Draw Orbit Ellipse
+      orbitCtx.beginPath();
+      orbitCtx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+      orbitCtx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+      orbitCtx.lineWidth = 2;
+      orbitCtx.setLineDash([6, 6]);
+      orbitCtx.stroke();
+      orbitCtx.setLineDash([]);
+
+      // Cardinal Labels on Orbit
+      drawCardinalMark(cx, cy - ry, "夏至 (6月)", "#f43f5e");
+      drawCardinalMark(cx + rx, cy, "春分 (3月)", "#10b981");
+      drawCardinalMark(cx, cy + ry, "冬至 (12月)", "#38bdf8");
+      drawCardinalMark(cx - rx, cy, "秋分 (9月)", "#f59e0b");
+
+      // Draw Sun in Center
+      const sunPulse = 18 + Math.sin(Date.now() / 200) * 2;
+      // Sun glow
+      const sunGrad = orbitCtx.createRadialGradient(cx, cy, 5, cx, cy, 45);
+      sunGrad.addColorStop(0, 'rgba(251, 191, 36, 1)');
+      sunGrad.addColorStop(0.4, 'rgba(245, 158, 11, 0.6)');
+      sunGrad.addColorStop(1, 'rgba(245, 158, 11, 0)');
+      orbitCtx.fillStyle = sunGrad;
+      orbitCtx.beginPath();
+      orbitCtx.arc(cx, cy, 45, 0, Math.PI * 2);
+      orbitCtx.fill();
+
+      // Sun core
+      orbitCtx.fillStyle = '#fef08a';
+      orbitCtx.beginPath();
+      orbitCtx.arc(cx, cy, sunPulse, 0, Math.PI * 2);
+      orbitCtx.fill();
+
+      orbitCtx.fillStyle = '#b45309';
+      orbitCtx.font = 'bold 11px "Noto Sans TC", sans-serif';
+      orbitCtx.textAlign = 'center';
+      orbitCtx.fillText("太陽", cx, cy + 4);
+
+      // Earth Position (Parametric angle)
+      // 0 deg at (cx + rx, cy) -> Spring
+      // 90 deg at (cx, cy - ry) -> Summer (top)
+      // 180 deg at (cx - rx, cy) -> Autumn (left)
+      // 270 deg at (cx, cy + ry) -> Winter (bottom)
+      const rad = (orbitAngle * Math.PI) / 180;
+      const earthX = cx + rx * Math.cos(rad);
+      const earthY = cy - ry * Math.sin(rad);
+
+      // Draw Sunlight beam from Sun to Earth
+      orbitCtx.beginPath();
+      orbitCtx.moveTo(cx, cy);
+      orbitCtx.lineTo(earthX, earthY);
+      orbitCtx.strokeStyle = 'rgba(253, 224, 71, 0.5)';
+      orbitCtx.lineWidth = 2.5;
+      orbitCtx.setLineDash([4, 4]);
+      orbitCtx.stroke();
+      orbitCtx.setLineDash([]);
+
+      // Draw Earth body
+      const earthRadius = 16;
+
+      // Earth tilted axis line (always tilted ~23.5 degrees to the right!)
+      const tiltAngle = (23.5 * Math.PI) / 180;
+      const axisLen = earthRadius + 15;
+      const axisDx = axisLen * Math.sin(tiltAngle);
+      const axisDy = axisLen * Math.cos(tiltAngle);
+
+      orbitCtx.beginPath();
+      orbitCtx.moveTo(earthX - axisDx, earthY + axisDy);
+      orbitCtx.lineTo(earthX + axisDx, earthY - axisDy);
+      orbitCtx.strokeStyle = '#ef4444';
+      orbitCtx.lineWidth = 2.5;
+      orbitCtx.stroke();
+
+      // North Pole mark
+      orbitCtx.fillStyle = '#ef4444';
+      orbitCtx.font = 'bold 10px sans-serif';
+      orbitCtx.fillText("N (北)", earthX + axisDx + 6, earthY - axisDy);
+
+      // Earth sphere
+      const earthGrad = orbitCtx.createRadialGradient(earthX - 4, earthY - 4, 3, earthX, earthY, earthRadius);
+      earthGrad.addColorStop(0, '#7dd3fc');
+      earthGrad.addColorStop(0.7, '#0284c7');
+      earthGrad.addColorStop(1, '#0369a1');
+      orbitCtx.fillStyle = earthGrad;
+      orbitCtx.beginPath();
+      orbitCtx.arc(earthX, earthY, earthRadius, 0, Math.PI * 2);
+      orbitCtx.fill();
+
+      // Equator curve (dashed red)
+      orbitCtx.beginPath();
+      orbitCtx.ellipse(earthX, earthY, earthRadius, earthRadius * 0.35, -tiltAngle, 0, Math.PI * 2);
+      orbitCtx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+      orbitCtx.lineWidth = 1.5;
+      orbitCtx.stroke();
+
+      // Earth label
+      orbitCtx.fillStyle = '#ffffff';
+      orbitCtx.font = 'bold 11px sans-serif';
+      orbitCtx.textAlign = 'center';
+      orbitCtx.fillText("地球", earthX, earthY + earthRadius + 14);
+
+      // Store position for dragging
+      orbitCanvas._earthPos = { x: earthX, y: earthY, radius: earthRadius + 10, cx, cy, rx, ry };
+    }
+
+    function drawCardinalMark(x, y, text, color) {
+      orbitCtx.fillStyle = color;
+      orbitCtx.beginPath();
+      orbitCtx.arc(x, y, 4, 0, Math.PI * 2);
+      orbitCtx.fill();
+
+      orbitCtx.fillStyle = color;
+      orbitCtx.font = 'bold 11px "Noto Sans TC", sans-serif';
+      orbitCtx.textAlign = 'center';
+      orbitCtx.fillText(text, x, y - 8);
+    }
+
+    function updateOrbitUI() {
+      const details = getOrbitDetails(orbitAngle);
+      document.getElementById('currentMonthBadge').textContent = details.label;
+      document.getElementById('orbitSlider').value = Math.round(orbitAngle);
+      
+      document.getElementById('directHitTitle').textContent = details.directName;
+      document.getElementById('directHitDesc').textContent = details.directDesc;
+      
+      document.getElementById('nhSeasonBadge').textContent = details.seasonHk;
+      document.getElementById('nhDaylight').textContent = details.daylightHk;
+      
+      document.getElementById('shSeasonBadge').textContent = details.seasonSyd;
+      document.getElementById('shDaylight').textContent = details.daylightSyd;
+
+      // Color coding seasons
+      const nhBadge = document.getElementById('nhSeasonBadge');
+      if (details.seasonHk === '夏季') nhBadge.className = 'px-2 py-0.5 rounded font-bold bg-rose-900/80 text-rose-300';
+      else if (details.seasonHk === '冬季') nhBadge.className = 'px-2 py-0.5 rounded font-bold bg-cyan-900/80 text-cyan-300';
+      else if (details.seasonHk === '春季') nhBadge.className = 'px-2 py-0.5 rounded font-bold bg-emerald-900/80 text-emerald-300';
+      else nhBadge.className = 'px-2 py-0.5 rounded font-bold bg-amber-900/80 text-amber-300';
+
+      drawOrbit();
+    }
+
+    function onSliderChange(val) {
+      orbitAngle = parseFloat(val);
+      updateOrbitUI();
+      playSound('tick');
+    }
+
+    function setSeasonPreset(deg) {
+      orbitAngle = deg;
+      updateOrbitUI();
+      playSound('click');
+      showToast(`已切換至：${getOrbitDetails(deg).label}`);
+    }
+
+    function stepOrbit(delta) {
+      orbitAngle = (orbitAngle + delta + 360) % 360;
+      updateOrbitUI();
+      playSound('tick');
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      const btnText = document.getElementById('playText');
+      const icon = document.getElementById('playIcon');
+      if (isPlaying) {
+        btnText.textContent = "暫停公轉";
+        icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+        playSound('click');
+        runOrbitLoop();
+      } else {
+        btnText.textContent = "自動公轉播放";
+        icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+        cancelAnimationFrame(animFrameId);
+      }
+    }
+
+    function runOrbitLoop() {
+      if (!isPlaying) return;
+      orbitAngle = (orbitAngle + 0.4) % 360;
+      updateOrbitUI();
+      animFrameId = requestAnimationFrame(runOrbitLoop);
+    }
+
+    // Touch & Mouse Drag on Canvas
+    function handlePointerDown(e) {
+      const rect = orbitCanvas.getBoundingClientRect();
+      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+      if (!clientX || !clientY) return;
+
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      const ep = orbitCanvas._earthPos;
+      if (!ep) return;
+
+      const dist = Math.hypot(x - ep.x, y - ep.y);
+      if (dist < ep.radius + 15) {
+        isDragging = true;
+        if (isPlaying) togglePlay();
+      }
+    }
+
+    function handlePointerMove(e) {
+      if (!isDragging) return;
+      const rect = orbitCanvas.getBoundingClientRect();
+      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+      const ep = orbitCanvas._earthPos;
+      if (!ep) return;
+
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
+      // calculate angle relative to center
+      const dx = (x - ep.cx) / ep.rx;
+      const dy = -(y - ep.cy) / ep.ry;
+      let angleRad = Math.atan2(dy, dx);
+      let deg = (angleRad * 180) / Math.PI;
+      orbitAngle = (deg + 360) % 360;
+      updateOrbitUI();
+    }
+
+    function handlePointerUp() {
+      isDragging = false;
+    }
+
+    orbitCanvas.addEventListener('mousedown', handlePointerDown);
+    window.addEventListener('mousemove', handlePointerMove);
+    window.addEventListener('mouseup', handlePointerUp);
+
+    orbitCanvas.addEventListener('touchstart', handlePointerDown, { passive: true });
+    window.addEventListener('touchmove', handlePointerMove, { passive: true });
+    window.addEventListener('touchend', handlePointerUp);
+
+    /* =========================================================
+       4. Tab 2: Sunlight Angle Laboratory Engine
+       ========================================================= */
+    const beamCanvas = document.getElementById('beamCanvas');
+    const beamCtx = beamCanvas.getContext('2d');
+    let beamAngle = 90; // degrees (90 = vertical direct)
+
+    function resizeBeamCanvas() {
+      const rect = beamCanvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      beamCanvas.width = rect.width * dpr;
+      beamCanvas.height = rect.height * dpr;
+      beamCtx.scale(dpr, dpr);
+    }
+
+    function setBeamAngle(ang) {
+      beamAngle = ang;
+      document.getElementById('beamSlider').value = ang;
+      updateBeamUI();
+      playSound('click');
+    }
+
+    function updateBeamFromSlider(val) {
+      beamAngle = parseFloat(val);
+      updateBeamUI();
+      playSound('tick');
+    }
+
+    function updateBeamUI() {
+      document.getElementById('sliderAngleText').textContent = beamAngle + '°';
+      const display = document.getElementById('beamAngleDisplay');
+      if (beamAngle >= 80) display.textContent = `${beamAngle}° (直射 - 太陽當頂)`;
+      else if (beamAngle >= 50) display.textContent = `${beamAngle}° (微斜射 - 溫暖)`;
+      else display.textContent = `${beamAngle}° (強斜射 - 寒冷散熱)`;
+
+      // Calculations:
+      // Area is inversely proportional to sin(angle)
+      const rad = (beamAngle * Math.PI) / 180;
+      const relativeArea = (1 / Math.sin(rad)).toFixed(2);
+      const heatPercent = Math.round(Math.sin(rad) * 100);
+
+      document.getElementById('metricSpotArea').textContent = relativeArea + 'x';
+      document.getElementById('metricHeat').textContent = heatPercent + '%';
+
+      const barArea = document.getElementById('barSpotArea');
+      const barHeat = document.getElementById('barHeat');
+      const conclTitle = document.getElementById('beamConclTitle');
+      const conclText = document.getElementById('beamConclText');
+      const conclCard = document.getElementById('beamConclusionCard');
+
+      // Bar width clamping
+      const areaWidth = Math.min(100, Math.round((relativeArea / 3) * 100));
+      barArea.style.width = areaWidth + '%';
+      barHeat.style.width = heatPercent + '%';
+
+      if (beamAngle >= 75) {
+        document.getElementById('metricSpotLabel').textContent = '非常集中';
+        document.getElementById('metricHeatLabel').textContent = '極炎熱 (夏季)';
+        conclCard.className = 'mt-4 p-3.5 rounded-2xl bg-rose-950/40 border border-rose-600/40 text-xs space-y-1.5';
+        conclTitle.textContent = '直射現象（北半球夏季／夏至）';
+        conclText.textContent = '太陽光線幾乎垂直照射地面，光束集中成小光斑，熱量密度達到頂峰！白晝時間最長，是形成炎熱夏天的原因。';
+      } else if (beamAngle >= 45) {
+        document.getElementById('metricSpotLabel').textContent = '適中';
+        document.getElementById('metricHeatLabel').textContent = '溫和 (春秋季)';
+        conclCard.className = 'mt-4 p-3.5 rounded-2xl bg-amber-950/40 border border-amber-600/40 text-xs space-y-1.5';
+        conclTitle.textContent = '斜射現象（春分／秋分）';
+        conclText.textContent = '太陽光線略微傾斜，光斑適度擴散，地面受熱均勻，氣溫溫和適宜，萬物復甦或落葉豐收。';
+      } else {
+        document.getElementById('metricSpotLabel').textContent = '極為分散';
+        document.getElementById('metricHeatLabel').textContent = '寒冷 (冬季)';
+        conclCard.className = 'mt-4 p-3.5 rounded-2xl bg-cyan-950/40 border border-cyan-600/40 text-xs space-y-1.5';
+        conclTitle.textContent = '強斜射現象（北半球冬季／冬至）';
+        conclText.textContent = '太陽位置極低，光線嚴重斜射，同樣強度的陽光被分散到很大的面積上，單位面積獲得的熱量極少，加上白晝短，導致寒冬！';
+      }
+
+      drawBeam();
+    }
+
+    function drawBeam() {
+      const rect = beamCanvas.parentElement.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      if (w === 0 || h === 0) return;
+
+      beamCtx.clearRect(0, 0, w, h);
+
+      const groundY = h - 50;
+      // Draw Ground plane
+      beamCtx.fillStyle = '#1e293b';
+      beamCtx.fillRect(0, groundY, w, 50);
+
+      beamCtx.strokeStyle = '#475569';
+      beamCtx.lineWidth = 2;
+      beamCtx.beginPath();
+      beamCtx.moveTo(0, groundY);
+      beamCtx.lineTo(w, groundY);
+      beamCtx.stroke();
+
+      // Ground marks / soil texture
+      beamCtx.fillStyle = '#94a3b8';
+      beamCtx.font = 'bold 11px sans-serif';
+      beamCtx.fillText("地面 (觀測受光面積)", 20, groundY + 30);
+
+      // Light beam parameters
+      const beamWidth = 40; // width of beam at source
+      const rad = (beamAngle * Math.PI) / 180;
+      const targetCenterX = w * 0.55;
+
+      // Source of flashlight / sun
+      const sourceDist = Math.min(h * 0.65, 200);
+      const sourceX = targetCenterX - sourceDist * Math.cos(rad);
+      const sourceY = groundY - sourceDist * Math.sin(rad);
+
+      // Calculate the projected ground spot footprint
+      const spotHalfWidth = (beamWidth / 2) / Math.sin(rad);
+      const spotLeft = targetCenterX - spotHalfWidth;
+      const spotRight = targetCenterX + spotHalfWidth;
+
+      // Draw light beam cone
+      const beamGrad = beamCtx.createLinearGradient(sourceX, sourceY, targetCenterX, groundY);
+      beamGrad.addColorStop(0, 'rgba(253, 224, 71, 0.85)');
+      beamGrad.addColorStop(1, 'rgba(251, 191, 36, 0.25)');
+
+      beamCtx.fillStyle = beamGrad;
+      beamCtx.beginPath();
+      // Perpendicular to beam direction
+      const perpX = Math.sin(rad) * (beamWidth / 2);
+      const perpY = -Math.cos(rad) * (beamWidth / 2);
+
+      beamCtx.moveTo(sourceX - perpX, sourceY - perpY);
+      beamCtx.lineTo(sourceX + perpX, sourceY + perpY);
+      beamCtx.lineTo(spotRight, groundY);
+      beamCtx.lineTo(spotLeft, groundY);
+      beamCtx.closePath();
+      beamCtx.fill();
+
+      // Draw Spot on ground
+      beamCtx.fillStyle = '#f59e0b';
+      beamCtx.shadowColor = '#fbbf24';
+      beamCtx.shadowBlur = 15;
+      beamCtx.fillRect(spotLeft, groundY - 3, spotRight - spotLeft, 6);
+      beamCtx.shadowBlur = 0;
+
+      // Dimension arrow under spot
+      beamCtx.strokeStyle = '#38bdf8';
+      beamCtx.lineWidth = 1.5;
+      beamCtx.beginPath();
+      beamCtx.moveTo(spotLeft, groundY + 14);
+      beamCtx.lineTo(spotRight, groundY + 14);
+      beamCtx.stroke();
+
+      beamCtx.fillStyle = '#38bdf8';
+      beamCtx.font = 'bold 11px sans-serif';
+      beamCtx.textAlign = 'center';
+      beamCtx.fillText(`受光斑面寬度：${(spotRight - spotLeft).toFixed(0)} px`, targetCenterX, groundY + 30);
+
+      // Draw Flashlight / Sun source icon
+      beamCtx.save();
+      beamCtx.translate(sourceX, sourceY);
+      beamCtx.rotate(Math.PI / 2 - rad);
+
+      // Flashlight body
+      beamCtx.fillStyle = '#334155';
+      beamCtx.fillRect(-15, -25, 30, 25);
+      beamCtx.fillStyle = '#64748b';
+      beamCtx.fillRect(-20, 0, 40, 10);
+      beamCtx.fillStyle = '#fde047';
+      beamCtx.beginPath();
+      beamCtx.arc(0, 10, 12, 0, Math.PI);
+      beamCtx.fill();
+
+      beamCtx.restore();
+
+      // Angle indicator arc
+      beamCtx.beginPath();
+      beamCtx.arc(targetCenterX, groundY, 40, Math.PI, Math.PI + rad, false);
+      beamCtx.strokeStyle = '#ef4444';
+      beamCtx.lineWidth = 2;
+      beamCtx.stroke();
+
+      beamCtx.fillStyle = '#f87171';
+      beamCtx.font = 'bold 12px sans-serif';
+      beamCtx.fillText(`${beamAngle}°`, targetCenterX - 55, groundY - 12);
+    }
+
+    /* =========================================================
+       5. Tab 3: Hemisphere Comparison Data
+       ========================================================= */
+    const hemiData = {
+      12: {
+        hkSeason: "冬季",
+        hkSun: "太陽斜射北半球，白晝短（約10.5小時），黑夜漫長。",
+        hkEmoji: "🧣",
+        hkLife: "大家穿上保暖毛衣與羽絨外套，冬至吃湯圓，聖誕節圍在室內吃大餐！",
+        hkDay: "白晝約 10.5 小時 • 寒冷乾燥",
+        sydSeason: "夏季",
+        sydSun: "太陽直射南回歸線，陽光充足，白晝長達14.5小時！",
+        sydEmoji: "🏄‍♂️",
+        sydLife: "澳洲正值暑假與炎夏，當地人在海灘衝浪、吃冰淇淋渡過獨特的「夏日聖誕節」！",
+        sydDay: "白晝約 14.5 小時 • 陽光明媚炎熱"
+      },
+      3: {
+        hkSeason: "春季",
+        hkSun: "太陽直射赤道，香港氣溫回升，晝夜平分各約12小時。",
+        hkEmoji: "🌱",
+        hkLife: "天氣轉暖，常常出現潮濕的「回南天」，牆壁冒水珠，樹木吐出嫩芽。",
+        hkDay: "晝夜等長 (約12小時) • 潮濕多霧",
+        sydSeason: "秋季",
+        sydSun: "太陽直射赤道，南半球進入秋天，白晝開始逐漸變短。",
+        sydEmoji: "🍂",
+        sydLife: "氣溫逐漸轉涼，樹葉轉為金黃色，學生開始迎接秋高氣爽的開學季節。",
+        sydDay: "晝夜等長 (約12小時) • 舒適涼爽"
+      },
+      6: {
+        hkSeason: "夏季",
+        hkSun: "太陽直射北回歸線，香港太陽高度角極高，白晝長達13.5小時！",
+        hkEmoji: "🍉",
+        hkLife: "炎熱多雨，放暑假去泳池游泳、開冷氣、吃西瓜消暑！",
+        hkDay: "白晝約 13.5 小時 • 酷熱多雷雨",
+        sydSeason: "冬季",
+        sydSun: "南半球背離太陽，接受太陽斜射，白天短而寒冷。",
+        sydEmoji: "⛷️",
+        sydLife: "澳洲進入寒冬，南部高山地區會下雪，人們前往滑雪勝地度假！",
+        sydDay: "白晝約 9.5 小時 • 寒冷清涼"
+      },
+      9: {
+        hkSeason: "秋季",
+        hkSun: "太陽再次直射赤道，香港日照時間變為晝夜平分。",
+        hkEmoji: "🥮",
+        hkLife: "天氣轉涼乾燥，秋高氣爽，全家一起吃月餅、賞月慶祝中秋節！",
+        hkDay: "晝夜等長 (約12小時) • 清涼乾燥",
+        sydSeason: "春季",
+        sydSun: "太陽再次直射赤道，南半球冰雪融化，白晝逐漸變長。",
+        sydEmoji: "🌸",
+        sydLife: "澳洲大地春暖花開，鬱金香盛開，野生動物活躍生長！",
+        sydDay: "晝夜等長 (約12小時) • 漸漸溫暖"
+      }
+    };
+
+    function setHemiMonth(m) {
+      playSound('click');
+      [12, 3, 6, 9].forEach(monthNum => {
+        const btn = document.getElementById('hemi-m-' + monthNum);
+        if (monthNum === m) {
+          btn.className = "hemi-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-600 text-white shadow-md";
+        } else {
+          btn.className = "hemi-btn px-3 py-1.5 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800";
+        }
+      });
+
+      const d = hemiData[m];
+      document.getElementById('hkSeasonBadgeBig').textContent = d.hkSeason;
+      document.getElementById('hkSunStatus').textContent = d.hkSun;
+      document.getElementById('hkLifeEmoji').textContent = d.hkEmoji;
+      document.getElementById('hkLifeText').textContent = d.hkLife;
+      document.getElementById('hkDayLength').textContent = d.hkDay;
+
+      document.getElementById('sydSeasonBadgeBig').textContent = d.sydSeason;
+      document.getElementById('sydSunStatus').textContent = d.sydSun;
+      document.getElementById('sydLifeEmoji').textContent = d.sydEmoji;
+      document.getElementById('sydLifeText').textContent = d.sydLife;
+      document.getElementById('sydDayLength').textContent = d.sydDay;
+
+      // Color tags
+      const hkTag = document.getElementById('hkSeasonBadgeBig');
+      if (d.hkSeason === '夏季') hkTag.className = "px-3 py-1 rounded-xl text-sm font-bold bg-rose-950 text-rose-300 border border-rose-800";
+      else if (d.hkSeason === '冬季') hkTag.className = "px-3 py-1 rounded-xl text-sm font-bold bg-cyan-950 text-cyan-300 border border-cyan-800";
+      else hkTag.className = "px-3 py-1 rounded-xl text-sm font-bold bg-emerald-950 text-emerald-300 border border-emerald-800";
+
+      const sydTag = document.getElementById('sydSeasonBadgeBig');
+      if (d.sydSeason === '夏季') sydTag.className = "px-3 py-1 rounded-xl text-sm font-bold bg-rose-950 text-rose-300 border border-rose-800";
+      else if (d.sydSeason === '冬季') sydTag.className = "px-3 py-1 rounded-xl text-sm font-bold bg-cyan-950 text-cyan-300 border border-cyan-800";
+      else sydTag.className = "px-3 py-1 rounded-xl text-sm font-bold bg-amber-950 text-amber-300 border border-amber-800";
+    }
+
+    /* =========================================================
+       6. Tab 4: Interactive Quiz Engine
+       ========================================================= */
+    const quizQuestions = [
+      {
+        id: 1,
+        question: "1. 一年中形成春夏秋冬四季變化的主要原因是什麼？",
+        options: [
+          "A. 地球與太陽的距離時近時遠",
+          "B. 地軸傾斜 23.5° 繞太陽公轉，使陽光直射點改變",
+          "C. 地球自轉速度有時快、有時慢",
+          "D. 月球圍繞地球公轉遮擋了陽光"
+        ],
+        answer: 1,
+        explanation: "正確！地球自轉軸傾斜約 23.5° 且方向保持不變，公轉時導致陽光直射點在南北回歸線之間移動，形成了四季交替。"
+      },
+      {
+        id: 2,
+        question: "2. 地球繞著自身地軸「自轉」一圈需要多少時間？會產生什麼自然現象？",
+        options: [
+          "A. 約 1 年，產生四季變化",
+          "B. 約 1 個月，產生月相圓缺",
+          "C. 約 24 小時（1 天），產生晝夜交替",
+          "D. 約 7 天，產生一星期"
+        ],
+        answer: 2,
+        explanation: "正確！地球自轉一圈約需 24 小時，面向太陽的一面是白天，背向太陽的一面是黑夜，因此產生晝夜交替！"
+      },
+      {
+        id: 3,
+        question: "3. 在「夏至」（約6月21日）當天，北半球（例如香港）的日照與天氣特點是什麼？",
+        options: [
+          "A. 太陽直射北回歸線，白晝最長、氣溫炎熱",
+          "B. 太陽直射南回歸線，黑夜最長、氣候寒冷",
+          "C. 全球晝夜等長，氣溫適中",
+          "D. 整天都是黑夜，完全沒有陽光"
+        ],
+        answer: 0,
+        explanation: "正確！夏至時太陽直射北回歸線，北半球各地迎來一年中白晝最長的一天，且受熱最集中。"
+      },
+      {
+        id: 4,
+        question: "4. 為什麼光線「直射」比「斜射」會使地面獲得更多的熱量？",
+        options: [
+          "A. 因為直射的光線移動速度比斜射快",
+          "B. 因為直射的光斑面積小而集中，單位面積受熱最多",
+          "C. 因為直射的光線顏色不同",
+          "D. 因為斜射時太陽會熄滅一部分"
+        ],
+        answer: 1,
+        explanation: "正確！就像手電筒垂直照在桌面上一樣，直射時光斑最集中，單位面積獲得的熱量最高，所以最炎熱。"
+      },
+      {
+        id: 5,
+        question: "5. 當香港（北半球）的小朋友正在穿厚棉襖度過寒冷的 12 月聖誕節時，位於澳洲（南半球）的小朋友通常在做什麼？",
+        options: [
+          "A. 也在堆雪人、穿羽絨外套",
+          "B. 躲在被窩裡開暖氣取暖",
+          "C. 穿著短袖或泳衣去海灘衝浪、吃雪糕過夏日聖誕",
+          "D. 地球上所有地方12月都一樣冷"
+        ],
+        answer: 2,
+        explanation: "正確！南半球與北半球的季節剛好完全相反。12月北半球是寒冬，南半球正處於炎熱的盛夏！"
+      }
+    ];
+
+    let userAnswers = {};
+    let score = 0;
+
+    function renderQuiz() {
+      const container = document.getElementById('quizQuestionsContainer');
+      container.innerHTML = '';
+
+      quizQuestions.forEach((q, idx) => {
+        const qCard = document.createElement('div');
+        qCard.className = "bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-3";
+        
+        let optionsHtml = '';
+        q.options.forEach((opt, optIdx) => {
+          const isSelected = userAnswers[q.id] === optIdx;
+          const hasAnswered = userAnswers[q.id] !== undefined;
+          let btnClass = "w-full text-left p-3.5 rounded-2xl border text-xs sm:text-sm font-medium transition flex items-center justify-between ";
+
+          if (!hasAnswered) {
+            btnClass += "bg-slate-800/70 border-slate-700/80 hover:bg-slate-700/80 text-slate-200";
+          } else {
+            if (optIdx === q.answer) {
+              btnClass += "bg-emerald-950/80 border-emerald-500 text-emerald-200 font-bold";
+            } else if (isSelected && optIdx !== q.answer) {
+              btnClass += "bg-rose-950/80 border-rose-500 text-rose-200";
+            } else {
+              btnClass += "bg-slate-800/40 border-slate-800 text-slate-500 opacity-60";
+            }
+          }
+
+          optionsHtml += `
+            <button onclick="handleAnswer(${q.id}, ${optIdx})" class="${btnClass}" ${hasAnswered ? 'disabled' : ''}>
+              <span>${opt}</span>
+              ${hasAnswered && optIdx === q.answer ? '<span class="text-emerald-400 font-bold">✓ 正確</span>' : ''}
+              ${hasAnswered && isSelected && optIdx !== q.answer ? '<span class="text-rose-400 font-bold">✗ 錯誤</span>' : ''}
+            </button>
+          `;
+        });
+
+        // Explanation block
+        let explainHtml = '';
+        if (userAnswers[q.id] !== undefined) {
+          const isCorrect = userAnswers[q.id] === q.answer;
+          explainHtml = `
+            <div class="mt-3 p-3.5 rounded-2xl ${isCorrect ? 'bg-emerald-950/40 border border-emerald-800/60 text-emerald-200' : 'bg-amber-950/40 border border-amber-800/60 text-amber-200'} text-xs leading-relaxed">
+              <strong>${isCorrect ? '🎉 答對了！' : '💡 知識解析：'}</strong> ${q.explanation}
+            </div>
+          `;
+        }
+
+        qCard.innerHTML = `
+          <div class="font-bold text-slate-100 text-sm sm:text-base">${q.question}</div>
+          <div class="space-y-2 mt-2">${optionsHtml}</div>
+          ${explainHtml}
+        `;
+        container.appendChild(qCard);
+      });
+
+      // Update score display
+      let currentScore = 0;
+      Object.keys(userAnswers).forEach(qid => {
+        const q = quizQuestions.find(item => item.id === parseInt(qid));
+        if (q && userAnswers[qid] === q.answer) currentScore++;
+      });
+      score = currentScore;
+      document.getElementById('quizScoreText').textContent = `${score} / ${quizQuestions.length}`;
+
+      // Check if all answered
+      if (Object.keys(userAnswers).length === quizQuestions.length) {
+        showQuizFinishBanner();
+      }
+    }
+
+    function handleAnswer(qId, selectedOption) {
+      if (userAnswers[qId] !== undefined) return;
+      userAnswers[qId] = selectedOption;
+
+      const q = quizQuestions.find(item => item.id === qId);
+      if (selectedOption === q.answer) {
+        playSound('correct');
+        showToast('答對了！太棒了！', '🌟');
+      } else {
+        playSound('wrong');
+        showToast('再接再厲，看看解析喔！', '📖');
+      }
+
+      renderQuiz();
+    }
+
+    function resetQuiz() {
+      userAnswers = {};
+      score = 0;
+      document.getElementById('quizResultBanner').classList.add('hidden');
+      playSound('click');
+      renderQuiz();
+      showToast('測驗已重置，加油！');
+    }
+
+    function showQuizFinishBanner() {
+      const banner = document.getElementById('quizResultBanner');
+      banner.classList.remove('hidden');
+      playSound('win');
+      if (score === 5) {
+        document.getElementById('quizCongratTitle').textContent = "滿分通關！小小天文科學家！";
+        document.getElementById('quizCongratDesc').textContent = "太厲害了！你完全掌握了地球公轉、自轉與四季變化的所有關鍵奧秘！";
+      } else {
+        document.getElementById('quizCongratTitle').textContent = `挑戰完成！獲得 ${score} / 5 分`;
+        document.getElementById('quizCongratDesc').textContent = "做得很好！建議複習「知識要點筆記」與模擬器，再來挑戰一次滿分喔！";
+      }
+    }
+
+    /* =========================================================
+       7. Initialization & Window Listeners
+       ========================================================= */
+    window.addEventListener('resize', () => {
+      resizeOrbitCanvas();
+      drawOrbit();
+      resizeBeamCanvas();
+      drawBeam();
+    });
+
+    window.onload = function() {
+      resizeOrbitCanvas();
+      updateOrbitUI();
+      resizeBeamCanvas();
+      updateBeamUI();
+      setHemiMonth(12);
+      renderQuiz();
+
+      // Show welcome toast
+      setTimeout(() => {
+        showToast('歡迎來到「地球公轉與四季變化」電子教室！', '🪐');
+      }, 600);
+    };
+  </script>
+</body>
+</html>
